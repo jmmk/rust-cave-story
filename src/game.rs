@@ -1,5 +1,3 @@
-extern crate sdl2;
-
 use sdl2::sdl;
 use sdl2::timer;
 use sdl2::event;
@@ -27,22 +25,27 @@ impl Game {
             loop {
                 match event::poll_event() {
                     event::KeyDownEvent(_,_,key_code,_,_) => {
-                        println!("{:?}", key_code);
                         if key_code == keycode::EscapeKey {
-                            return;
+                            return
                         }
                     },
                     event::KeyUpEvent(_,_,key_code,_,_) => {
-                        println!("{:?}", key_code);
+                        if key_code == keycode::EscapeKey {
+                            return
+                        }
+                    },
+                    event::QuitEvent(_) => {
+                        return
                     },
                     _ => break
                 }
             }
+
             self.update();
             self.draw();
 
             let elapsed_time = timer::get_ticks() - start_time;
-            timer::delay(1000 / 60 - elapsed_time)
+            timer::delay(1000 / 60 - elapsed_time);
         }
     }
 

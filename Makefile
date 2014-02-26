@@ -1,6 +1,6 @@
 CC=rustc
 CFLAGS=
-LDFLAGS=-L /usr/local/lib
+LDFLAGS=
 
 all:  compile
 
