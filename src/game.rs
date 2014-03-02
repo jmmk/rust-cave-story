@@ -2,26 +2,32 @@ use sdl2::sdl;
 use sdl2::timer;
 use sdl2::event;
 use sdl2::keycode;
-use sdl2::video;
-use sdl2::render;
 
-pub struct Game;
+mod graphics;
+mod sprite;
+
+pub struct Game {
+    display: ~graphics::Graphics,
+    sprite: ~sprite::Sprite
+}
+
+static FPS: uint = 60;
 
 impl Game {
-    pub fn new() -> Game {
-        Game
-    }
-
-    pub fn start(&self) {
+    pub fn new() {
         sdl::init([sdl::InitEverything]);
-        let screen = render::Renderer::new_with_window(640, 480, [video::InputGrabbed]).unwrap();
 
-        self.event_loop()
+        let game = Game {
+            display: ~graphics::Graphics::new(),
+            sprite: ~sprite::Sprite::new(~"assets/charSprites.bmp", 0, 0)
+        };
+        game.event_loop();
     }
 
     fn event_loop(&self) {
         loop {
             let start_time = timer::get_ticks();
+
             loop {
                 match event::poll_event() {
                     event::KeyDownEvent(_,_,key_code,_,_) => {
@@ -45,7 +51,7 @@ impl Game {
             self.draw();
 
             let elapsed_time = timer::get_ticks() - start_time;
-            timer::delay(1000 / 60 - elapsed_time);
+            timer::delay(1000 / FPS - elapsed_time);
         }
     }
 
@@ -54,6 +60,7 @@ impl Game {
     }
 
     fn draw(&self) {
-
+        self.sprite.draw(self.display, 320, 240);
+        self.display.screen.present();
     }
 }

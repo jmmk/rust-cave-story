@@ -7,8 +7,7 @@ use sdl2::sdl;
 mod game;
 
 fn main() {
-    let game = game::Game::new();
-    game.start();
+    game::Game::new();
 
     sdl::quit();
 }
