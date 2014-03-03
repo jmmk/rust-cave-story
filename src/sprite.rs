@@ -1,9 +1,8 @@
 use sdl2::surface;
 use sdl2::rect;
 use game::graphics;
+use game::TILE_SIZE;
 
-
-static SHAPE_SIZE: i32 = 32;
 
 pub struct Sprite {
     sprite_sheet: ~surface::Surface,
@@ -13,7 +12,7 @@ pub struct Sprite {
 impl Sprite {
     pub fn new(p: ~str, x: i32, y: i32) -> Sprite {
         let sprite: Sprite;
-        let source_rect = rect::Rect::new(x, y, SHAPE_SIZE, SHAPE_SIZE);
+        let source_rect = rect::Rect::new(x, y, TILE_SIZE, TILE_SIZE);
 
         match surface::Surface::from_bmp(&Path::new(p)) {
             Ok(surface) => {
@@ -29,12 +28,11 @@ impl Sprite {
     }
 
     pub fn draw(&self, display: &graphics::Graphics, x: i32, y: i32) {
-        let dest_rect = rect::Rect::new(x, y, SHAPE_SIZE, SHAPE_SIZE);
+        let dest_rect = rect::Rect::new(x, y, TILE_SIZE, TILE_SIZE);
 
         match display.screen.create_texture_from_surface(self.sprite_sheet) {
             Ok(texture) => {
                 display.screen.copy(texture, Some(*self.source_rect), Some(dest_rect));
-                display.screen.present();
             },
             Err(_) => fail!("Could not create texture from sprite sheet")
         }
