@@ -4,13 +4,12 @@ use sdl2::event;
 use sdl2::keycode;
 
 mod graphics;
-mod sprite;
-mod animated_sprite;
+mod player;
 mod input;
 
 pub struct Game {
     display: ~graphics::Graphics,
-    sprite: ~animated_sprite::AnimatedSprite,
+    player: ~player::Player,
     input: ~input::Input
 }
 
@@ -23,7 +22,7 @@ impl Game {
 
         let mut game = Game {
             display: ~graphics::Graphics::new(),
-            sprite: ~animated_sprite::AnimatedSprite::new(~"assets/charSprites.bmp", 0, 0, 15, 3),
+            player: ~player::Player::new(320,240),
             input: ~input::Input::new()
         };
         game.event_loop();
@@ -54,6 +53,16 @@ impl Game {
                 return
             }
 
+            if self.input.is_held(keycode::LeftKey) && self.input.is_held(keycode::RightKey) {
+                self.player.stop_moving();
+            } else if self.input.is_held(keycode::LeftKey) {
+                self.player.start_moving_left();
+            } else if self.input.is_held(keycode::RightKey) {
+                self.player.start_moving_right();
+            } else {
+                self.player.stop_moving();
+            }
+
             let current_time = timer::get_ticks();
             self.update(current_time - last_update_time);
             last_update_time = current_time;
@@ -66,11 +75,12 @@ impl Game {
     }
 
     fn update(&mut self, elapsed_time: uint) {
-        self.sprite.update(elapsed_time);
+        self.player.update(elapsed_time);
     }
 
     fn draw(&self) {
-        self.sprite.draw(self.display, 320, 240);
+        self.display.screen.clear();
+        self.player.draw(self.display);
         self.display.screen.present();
     }
 }
