@@ -41,11 +41,6 @@ impl SpriteState {
     }
 }
 
-static DEFAULT_SPRITE_STATE: SpriteState = SpriteState {
-    motion_type: Standing,
-    horizontal_facing: Left
-};
-
 pub struct Player {
     sprites: HashMap<SpriteState, ~sprite::HashableSprite:>,
     x: i32,

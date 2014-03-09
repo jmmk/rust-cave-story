@@ -2,7 +2,7 @@ use std::rc::Rc;
 use sdl2::surface;
 use sdl2::rect;
 
-use game::graphics;
+use graphics;
 use game::TILE_SIZE;
 
 pub struct Sprite {
