@@ -1,5 +1,2 @@
 .rust
-assets
-lib
 bin
-doc

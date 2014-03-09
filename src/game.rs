@@ -3,27 +3,28 @@ use sdl2::timer;
 use sdl2::event;
 use sdl2::keycode;
 
-mod graphics;
-mod player;
-mod input;
+use graphics;
+use player;
+use input;
 
 pub struct Game {
-    display: ~graphics::Graphics,
-    player: ~player::Player,
-    input: ~input::Input
+    display: graphics::Graphics,
+    player: player::Player,
+    input: input::Input
 }
 
 static FPS: uint = 60;
-static TILE_SIZE: i32 = 32;
+pub static TILE_SIZE: i32 = 32;
 
 impl Game {
     pub fn new() {
         sdl::init([sdl::InitEverything]);
 
+        let mut display = graphics::Graphics::new();
         let mut game = Game {
-            display: ~graphics::Graphics::new(),
-            player: ~player::Player::new(320,240),
-            input: ~input::Input::new()
+            player: player::Player::new(320,240, &mut display),
+            input: input::Input::new(),
+            display: display
         };
         game.event_loop();
     }
@@ -80,7 +81,7 @@ impl Game {
 
     fn draw(&self) {
         self.display.screen.clear();
-        self.player.draw(self.display);
+        self.player.draw(&self.display);
         self.display.screen.present();
     }
 }
