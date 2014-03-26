@@ -8,7 +8,9 @@ compile:
 	$(CC) -o bin/cave_story src/main.rs
 
 deps:
-	git submodule update
+	git submodule foreach git pull origin master
+	git add -A
+	git commit -m "Update dependency versions"
 	cd lib/rust-sdl2; make clean && make
 	cp lib/rust-sdl2/build/lib/libsdl2* $(RUSTLIBDIR)
 
