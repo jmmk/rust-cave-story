@@ -11,22 +11,19 @@ static WALKING_ACCELERATION: f32 = 0.0012;
 static MAX_SPEED_X: f32 = 0.325;
 static SLOW_DOWN_FACTOR: f32 = 0.8;
 
-#[deriving(Hash)]
-#[deriving(Eq)]
+#[deriving(Hash, Eq, TotalEq)]
 enum MotionType {
     Standing,
     Walking
 }
 
-#[deriving(Hash)]
-#[deriving(Eq)]
+#[deriving(Hash, Eq, TotalEq)]
 enum HorizontalFacing {
     Left,
     Right
 }
 
-#[deriving(Hash)]
-#[deriving(Eq)]
+#[deriving(Hash, Eq, TotalEq)]
 pub struct SpriteState {
     motion_type: MotionType,
     horizontal_facing: HorizontalFacing
@@ -72,9 +69,9 @@ impl Player {
         self.velocity_x += self.acceleration_x * elapsed_time as f32;
 
         if self.acceleration_x < 0.0 {
-            self.velocity_x = cmp::max(self.velocity_x, -MAX_SPEED_X);
+            self.velocity_x = self.velocity_x.max(-MAX_SPEED_X);
         } else if self.acceleration_x > 0.0 {
-            self.velocity_x = cmp::min(self.velocity_x, MAX_SPEED_X);
+            self.velocity_x = self.velocity_x.min(MAX_SPEED_X);
         } else {
             self.velocity_x *= SLOW_DOWN_FACTOR;
         }

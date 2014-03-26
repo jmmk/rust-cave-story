@@ -31,7 +31,7 @@ impl HashableSprite for Sprite {
     fn draw(&self, display: &graphics::Graphics, x: i32, y: i32) {
         let dest_rect = rect::Rect::new(x, y, TILE_SIZE, TILE_SIZE);
 
-        match display.screen.create_texture_from_surface(*self.sprite_sheet.borrow()) {
+        match display.screen.create_texture_from_surface(*self.sprite_sheet.deref()) {
             Ok(texture) => {
                 display.screen.copy(texture, Some(self.source_rect), Some(dest_rect));
             },

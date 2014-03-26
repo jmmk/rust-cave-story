@@ -5,11 +5,11 @@ RUSTLIBDIR=/usr/local/lib/rustlib/x86_64-unknown-linux-gnu/lib/
 all:  compile
 
 clean:
-	rm -rf build/**
+	rm -rf ~/rust_cave_story/**
 
 compile:
-	mkdir -p build
-	rustc -o build/cave_story src/main.rs
+	mkdir -p ~/rust_cave_story/build
+	rustc -o ~/rust_cave_story/build/cave_story src/main.rs
 
 deps:
 	git submodule foreach git pull origin master
@@ -19,4 +19,4 @@ deps:
 	git commit -m "Update dependency versions"
 
 run:
-	@build/cave_story
+	@~/rust_cave_story/build/cave_story
