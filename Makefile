@@ -14,9 +14,7 @@ compile:
 deps:
 	git submodule foreach git pull origin master
 	cd lib/rust-sdl2; make clean && make
-	cp lib/rust-sdl2/build/lib/libsdl2* $(RUSTLIBDIR)
-	git add -A
-	git commit -m "Update dependency versions"
+	sudo cp lib/rust-sdl2/build/lib/libsdl2* $(RUSTLIBDIR)
 
 run:
 	@~/rust_cave_story/build/cave_story
